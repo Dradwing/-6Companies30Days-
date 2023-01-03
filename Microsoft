@@ -1,0 +1,191 @@
+1
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+
+        int ans=0;
+        int i=2;
+        while(tokens.size()>1)
+        {
+
+            if(tokens[i]!="/"&&tokens[i]!="*"&&tokens[i]!="+"&&tokens[i]!="-")i++;
+            else
+           {
+               if(tokens[i]=="/")tokens[i-2]=to_string(stoi(tokens[i-2])/stoi(tokens[i-1]));
+               else if(tokens[i]=="*")tokens[i-2]=to_string(stoi(tokens[i-2])*stoi(tokens[i-1]));
+               else if(tokens[i]=="+")tokens[i-2]=to_string(stoi(tokens[i-2])+stoi(tokens[i-1]));
+               else tokens[i-2]=to_string(stoi(tokens[i-2])-stoi(tokens[i-1]));
+               tokens.erase(tokens.begin()+i);
+               i--;
+               tokens.erase(tokens.begin()+i);
+           }
+        }
+        return stoi(tokens[0]);
+        
+    }
+};
+
+2
+class Solution {
+public:
+
+vector<vector<int>> ans;
+int N,K;
+void helper(int sum,vector<int> temp,int val)
+{
+   if(temp.size()==K&&sum==N){
+       ans.push_back(temp);
+       return;
+   }
+   if(temp.size()>=K||sum>=N||val>9)return;
+   
+   helper(sum,temp,val+1);
+   temp.push_back(val);
+   helper(sum+val,temp,val+1);
+   return;
+}
+    vector<vector<int>> combinationSum3(int k, int n) {
+        
+        N=n;
+        K=k;
+        vector<int> temp;
+        helper(0,temp,1);
+        return ans;
+    }
+};
+3
+class Solution {
+public:
+    string getHint(string secret, string guess) {
+
+        int b=0,c=0;
+        map<char,int> m;
+        for(int l=0;l<guess.size();l++){
+
+            if(guess[l]==secret[l])b++;
+            else m[secret[l]]++;
+        }
+
+       for(int l=0;l<guess.size();l++){
+
+            if(guess[l]!=secret[l]&&m[guess[l]]>0){
+                c++;
+                m[guess[l]]--;
+            }
+            }
+            string ans=to_string(b)+"A"+to_string(c)+"B";
+            
+            return ans;
+        
+    }
+};
+
+4
+class Solution {
+public:
+    int maxRotateFunction(vector<int>& nums) {
+        
+        int lo=0,hi=0;
+        int ans=0;
+        int n=nums.size();
+        for(int l=0;l<nums.size();l++)
+        {
+            ans+=nums[l]*l;
+            hi+=nums[l];
+        }
+        hi-=nums[0];
+        
+        int prev=ans;
+        for(int l=1;l<n;l++)
+        {
+            int temp=prev-hi+(n-1)*(nums[l-1])-lo;
+            hi-=nums[l];
+            lo+=nums[l-1];
+            prev=temp;
+            ans=max(temp,ans);
+        }
+        return ans;
+    }
+};
+5
+class Solution {
+public:
+
+   unordered_map<int,vector<int>> dp;
+   vector<int> v;
+   
+   vector<int> helper(int n)
+   {
+        if(n>=v.size())return {};
+
+        if(dp[n].size()>0)return dp[n];
+        vector<int> temp;
+
+        for(int l=n+1;l<v.size();l++)
+        {
+              if(v[l]%v[n]==0){
+                  vector<int> temp2=helper(l);
+                  if(temp2.size()>temp.size())temp=temp2;
+              }
+        }
+        
+        temp.insert(temp.begin(),v[n]);
+        return dp[n]=temp;
+   }
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+        vector<int> ans;
+        sort(nums.begin(),nums.end());
+        v=nums;
+        for(int l=0;l<nums.size();l++)
+        {
+          vector<int> temp=helper(l);
+          if(temp.size()>ans.size())ans=temp;
+        }
+
+        return ans;
+    }
+};
+
+
+10
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+
+        int starting=-1,ending=-1,mini=INT_MAX,maxi=INT_MIN;
+        int n=nums.size();
+        
+        for(int l=1;l<n;l++)
+        {
+            if(nums[l]<nums[l-1])
+                mini=min(mini,nums[l]);
+        }
+        if(mini==INT_MAX)
+            return 0;
+        for(int l=0;l<n;l++)
+            if(nums[l]>mini)
+            {
+                starting=l;
+                break;
+            }
+        for(int l=0;l<n-1;l++)
+        {
+            if(nums[l]>nums[l+1])
+                maxi=max(maxi,nums[l]);
+        }
+        
+        for(int l=n-1;l>=0;l--)
+        {
+           if(nums[l]<maxi)
+           {
+               ending=l;
+               break;
+           }
+        }
+        
+        return ending-starting+1;
+        
+
+
+    }
+};
