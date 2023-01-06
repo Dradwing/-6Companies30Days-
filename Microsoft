@@ -189,3 +189,86 @@ public:
 
     }
 };
+
+12
+class Solution {
+public:
+    string longestPrefix(string s) {
+
+        // KMP algorithm by tushar roy
+
+        
+          vector<int> dp(s.size());
+    int j = 0;
+    for (int i = 1; i < s.size(); ++i) {
+        if (s[i] == s[j])
+            dp[i] = ++j;
+        else if (j > 0) {
+            j = dp[j - 1];
+            --i;
+        }
+    }
+    return s.substr(0, j);
+    }
+};
+
+13
+class Solution {
+public:
+    double nthPersonGetsNthSeat(int n) {
+        
+        if(n==1)return 1.00000;
+        else return 0.5000000;
+        }
+};
+
+class Solution {
+public:
+
+    int minOperations(vector<int>& nums, vector<int>& numsDivide) {
+        
+        sort(nums.begin(),nums.end());
+
+        long long int gc=numsDivide[0];
+
+        for(int l=0;l<numsDivide.size();l++)
+        {
+           gc=__gcd((long long int)numsDivide[l],gc);
+        }
+
+        for(int l=0;l<nums.size();l++)
+        {
+            if(gc%nums[l]==0)return l;
+        }
+        return -1;
+        
+    }
+};
+
+15
+
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        
+        int a=0,b=0,c=0;
+
+        int ans=0;
+        int i=0;
+        for(int l=0;l<s.size();l++)
+        {
+           if(s[l]=='a')a++;
+           else if(s[l]=='b')b++;
+           else c++;
+
+           while(a>0&&b>0&&c>0){
+               if(s[i]=='a')a--;
+           else if(s[i]=='b')b--;
+           else c--;
+               i++;
+           }
+           ans+=i;
+        }
+        return ans;
+    }
+};
