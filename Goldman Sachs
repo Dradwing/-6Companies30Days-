@@ -74,3 +74,23 @@ public:
 
     }
 };
+
+3
+class Solution {
+public:
+    int trailingZeroes(int n) {
+
+        // count factors of 2 and 5 from 1 to n;
+        // count of 2>>>> count of 5 -> ignore 2;
+        // for 5-> n/5;
+        // for 25-> n/25;
+        // ... 
+         int count = 0;
+        while (n != 0) {
+            int tmp = n / 5;
+            count += tmp;
+            n = tmp;
+        }
+        return count;
+    }
+};
