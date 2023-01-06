@@ -1,0 +1,76 @@
+1
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        
+        int ans=0;
+
+        for(int l=0;l<points.size();l++)
+        {
+               
+            map<pair<int,int>, int> m;
+            for(int i=0;i<points.size();i++)
+            {
+                if(i==l)continue;
+                 int y=(points[i][1]-points[l][1]);
+                 int x=points[i][0]-points[l][0];
+
+                 int gc=__gcd(x,y);
+                 x=x/gc;
+                 y=y/gc;
+                 m[make_pair(y,x)]++;  
+            }
+
+            for(auto el:m){
+                ans=max(ans,el.second+1);
+            }
+        }
+        return ans==0?1:ans;
+    }
+};
+2
+class Solution {
+public:
+    bool validSquare(vector<int>& p1, vector<int>& p2, vector<int>& p3, vector<int>& p4) {
+
+        double s2=sqrt(1.00*(p1[0]-p2[0])*(p1[0]-p2[0])+(1.00*(p1[1]-p2[1])*(p1[1]-p2[1])));
+        double s3=sqrt(1.00*(p1[0]-p3[0])*(p1[0]-p3[0])+(1.00*(p1[1]-p3[1])*(p1[1]-p3[1])));
+
+        if(s2==0||s3==0)return false;
+
+        if(s2<s3){
+            double s4=sqrt(1.00*(p1[0]-p4[0])*(p1[0]-p4[0])+(1.00*(p1[1]-p4[1])*(p1[1]-p4[1])));
+            double s34=sqrt(1.00*(p3[0]-p4[0])*(p3[0]-p4[0])+(1.00*(p3[1]-p4[1])*(p3[1]-p4[1])));
+            double s23=sqrt(1.00*(p2[0]-p3[0])*(p2[0]-p3[0])+(1.00*(p2[1]-p3[1])*(p2[1]-p3[1])));
+
+            double d24=sqrt(1.00*(p2[0]-p4[0])*(p2[0]-p4[0])+(1.00*(p2[1]-p4[1])*(p2[1]-p4[1])));
+
+            if(d24==s3&&(s2==s4&&s4==s34&&s34==s23))return true;
+        }
+        else if(s3<s2)
+        {
+            double s4=sqrt(1.00*(p1[0]-p4[0])*(p1[0]-p4[0])+(1.00*(p1[1]-p4[1])*(p1[1]-p4[1])));
+            double s24=sqrt(1.00*(p2[0]-p4[0])*(p2[0]-p4[0])+(1.00*(p2[1]-p4[1])*(p2[1]-p4[1])));
+            double s32=sqrt(1.00*(p3[0]-p2[0])*(p3[0]-p2[0])+(1.00*(p3[1]-p2[1])*(p3[1]-p2[1])));
+
+            double d34=sqrt(1.00*(p3[0]-p4[0])*(p3[0]-p4[0])+(1.00*(p3[1]-p4[1])*(p3[1]-p4[1])));
+
+            if(d34==s2&&(s3==s4&&s4==s24&&s24==s32))return true;
+        }
+        else
+        {
+            double d14=sqrt(1.00*(p1[0]-p4[0])*(p1[0]-p4[0])+(1.00*(p1[1]-p4[1])*(p1[1]-p4[1])));
+            double s24=sqrt(1.00*(p2[0]-p4[0])*(p2[0]-p4[0])+(1.00*(p2[1]-p4[1])*(p2[1]-p4[1])));
+            double s32=sqrt(1.00*(p3[0]-p2[0])*(p3[0]-p2[0])+(1.00*(p3[1]-p2[1])*(p3[1]-p2[1])));
+
+            double d34=sqrt(1.00*(p3[0]-p4[0])*(p3[0]-p4[0])+(1.00*(p3[1]-p4[1])*(p3[1]-p4[1])));
+
+            if(d14==s32&&(s3==d34&&d34==s24&&s24==s2))return true;
+        }
+
+        return false;
+
+
+
+    }
+};
