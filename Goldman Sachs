@@ -156,3 +156,20 @@ public:
         return true;
     }
 };
+
+6
+class Solution {
+public:
+    int minimumCardPickup(vector<int>& cards) {
+        
+        int ans=INT_MAX;
+        unordered_map<int,int> m;
+        for(int l=0;l<cards.size();l++)
+        {
+            if(m[cards[l]]!=0)ans=min(ans,(l+1-m[cards[l]]+1));
+            m[cards[l]]=l+1;
+        }
+        return ans==INT_MAX?-1:ans;
+        
+    }
+};
