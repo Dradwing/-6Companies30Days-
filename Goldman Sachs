@@ -242,3 +242,38 @@ public:
 
     }
 };
+
+10
+class Solution {
+public:
+    int peopleAwareOfSecret(int n, int delay, int forget) {
+
+// can be done easily with queue;
+
+        vector<long long int> v(n);
+        v[0]=1;
+        long long int mod=1000000007;
+        
+        long long int sum=0;
+        for(int l=1;l<n;l++)
+        {
+
+            int i=l-forget;
+            int j=l-delay;
+            
+            if(i>=0)sum=(((sum-v[i])%mod)+mod)%mod;
+            if(j>=0)sum=(sum+v[j])%mod;
+            v[l]=sum;
+           
+        }
+
+        long long int ans=0;
+
+        for(int i=(n-forget);i<n;i++)
+        ans=(ans+v[i])%mod;
+        return ans;
+
+
+        
+    }
+};
