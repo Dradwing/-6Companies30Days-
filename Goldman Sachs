@@ -173,3 +173,45 @@ public:
         
     }
 };
+
+8
+class Solution {
+public:
+
+   vector<int> ans;
+   int score=0;
+   vector<int> v;
+   int K;
+
+   void helper(int n,int sum,int cost,vector<int> temp)
+   {
+       if(cost>K)return;
+       if(n>11)
+       {
+           if(score<sum){
+               ans=temp;
+               ans[0]+=(K-cost);
+               score=sum;
+           }
+           return;
+       }
+
+       helper(n+1,sum,cost,temp);
+       temp[n]=v[n];
+       sum+=n;
+       cost+=v[n];
+       helper(n+1,sum,cost,temp);
+       return;
+   }
+    vector<int> maximumBobPoints(int numArrows, vector<int>& aliceArrows) {
+        
+        K=numArrows;
+        vector<int> t(12,0);
+
+        for(int l=0;l<12;l++){
+            v.push_back(aliceArrows[l]+1);
+        }
+        helper(1,0,0,t);
+        return ans;
+    }
+};
