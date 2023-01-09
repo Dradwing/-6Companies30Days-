@@ -277,3 +277,81 @@ public:
         
     }
 };
+
+11
+class Solution {
+public:
+    vector<string> invalidTransactions(vector<string>& transactions) {
+        
+        unordered_map<string,vector<pair<int,pair<string,string>>>> m;
+         vector<string> ans;
+        for(int l=0;l<transactions.size();l++)
+        {
+            string name="";
+            string city="";
+            
+            string amount="";
+            string time="";
+            int i=0;
+            
+            while(i<transactions[l].size())
+            {
+                if(transactions[l][i]==',')break;
+                name+=transactions[l][i++];
+            }
+            i++;
+            while(i<transactions[l].size())
+            {
+                if(transactions[l][i]==',')break;
+                time+=transactions[l][i++];
+            }
+            i++;
+            while(i<transactions[l].size())
+            {
+                if(transactions[l][i]==',')break;
+                amount+=transactions[l][i++];
+            }
+            i++;
+            while(i<transactions[l].size())
+            {
+                if(transactions[l][i]==',')break;
+                city+=transactions[l][i++];
+            }
+                m[name].push_back(make_pair(stoi(time),make_pair(amount,city)));
+            
+        }
+        for(auto el:m)
+        {
+            sort(el.second.begin(),el.second.end());
+
+            for(int i=0;i<el.second.size();i++)
+            { 
+                int r=0;
+                  
+                for(int l=0;l<el.second.size();l++)
+                {
+                    if(l==i)continue;
+
+                    if(abs(el.second[i].first-el.second[l].first)<=60&&el.second[i].second.second!=el.second[l].second.second){
+                        r=1;
+                        break;
+                    }
+                }  
+               
+                if((stoi(el.second[i].second.first)>1000)||r==1)
+                {
+                    string s="";
+                    s+=el.first;
+                    s+=",";
+                    s+=to_string(el.second[i].first);
+                    s+=",";
+                    s+=el.second[i].second.first;
+                    s+=",";
+                    s+=el.second[i].second.second;
+                    ans.push_back(s);
+                }
+            }
+        }
+        return ans;
+    }
+};
