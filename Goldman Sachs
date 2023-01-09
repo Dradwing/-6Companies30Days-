@@ -453,3 +453,30 @@ public:
         return ret;
     }
 };
+
+14
+class Solution {
+public:
+    int countNicePairs(vector<int>& nums) {
+        
+        unordered_map<long long int,long long int> m;
+
+        for(int l=0;l<nums.size();l++)
+        {
+            long long int prev=nums[l];
+            string nu=to_string(nums[l]);
+            reverse(nu.begin(),nu.end());
+            long long int curr=stoi(nu);
+            m[prev-curr]++;
+        }
+
+        long long int ans=0,mod=1000000007;
+
+        for(auto el:m)
+        {
+            long long int cnt=el.second;
+            ans=(ans+(cnt*(cnt-1)/2))%mod;
+        }
+        return ans;
+    }
+};
