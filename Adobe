@@ -56,3 +56,24 @@ public:
          return ans;
     }
 };
+
+2
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) {
+        
+        int f=INT_MAX,s=INT_MAX;
+        
+        for(int l=0;l<nums.size();l++)
+        {
+            if(nums[l]<=f)
+                f=nums[l];
+            else if(nums[l]<=s)
+                s=nums[l];
+            else{
+                return true;
+            }
+        }
+        return false;
+    }
+};
