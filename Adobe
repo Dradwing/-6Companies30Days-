@@ -1,0 +1,58 @@
+1
+class Solution {
+public:
+    string fractionToDecimal(int numerator, int denominator) {
+        
+         string ans="";
+         
+         int sign=0;
+         long long int n=(long long int)numerator;
+         long long int d=(long long int)denominator;
+         if((n<0&&d>0)||(n>0&&d<0))sign=1;
+         if(n<0)n=-1*n;
+         if(d<0)d=-1*d;
+          ans+=to_string((n/d));
+
+         if(n%d==0)return sign==0?ans:'-'+ans;
+         ans+='.';
+
+         string temp="";
+
+         long long int curr=n%d;
+         unordered_map<long long int,int> m;
+
+         while(curr>0)
+         {
+             if(m[curr]>0){
+                 temp.insert(m[curr]-1,"(");
+                 temp+=')';
+                 break;
+             }
+           m[curr]=temp.size()+1;
+           curr*=10;
+           if(m[curr]>0){
+                 temp.insert(m[curr]-1,"(");
+                 temp+=')';
+                 break;
+             }
+           while(curr<d){
+               curr*=10;
+               temp+='0';
+               if(m[curr]>0){
+                 temp.insert(m[curr]-1,"(");
+                 temp+=')';
+                 break;
+             }
+           }
+
+           if(temp.size()>0&&temp[temp.size()-1]==')')break;
+
+           temp+=to_string(curr/d);
+           curr=curr%d;
+
+         }
+         ans+=temp;
+         if(sign==1)ans='-'+ans;
+         return ans;
+    }
+};
